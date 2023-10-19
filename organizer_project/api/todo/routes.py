@@ -1,6 +1,5 @@
 from flask_smorest import Blueprint, abort
-from .schemas import AddTaskArgsSchema, TaskSchema, UpdateTaskArgsSchema, UpdateTaskResponseSchema
-from organizer_project.config import TASK_LIST
+from .schemas import AddTaskArgsSchema, TaskResponseSchema, UpdateTaskArgsSchema
 from organizer_project.models import Task
 from ...utils.universal_responses import success_response
 
@@ -16,39 +15,45 @@ blp = Blueprint(
 @blp.arguments(AddTaskArgsSchema, location="json", as_kwargs=True)
 @blp.doc(description="Creating new task")
 def add_task(description: str):
-    TASK_LIST.append(Task(description=description))
+    Task.add_task(description)
     return success_response()
 
 
 @blp.route("/remove-task/<int:task_id>", methods=["DELETE"], strict_slashes=False)
 @blp.doc(description="Deleting client existed task")
 def delete_task(task_id: int):
-    try:
-        TASK_LIST.pop(task_id)
-        return success_response()
-    except IndexError:
-        return abort(404, errors=[f"Task {task_id} not found"])
+    Task.delete_task(task_id)
+    return success_response()
 
 
 @blp.route("/task-list", methods=["GET"], strict_slashes=False)
-@blp.response(200, TaskSchema(many=True))
+@blp.response(200, TaskResponseSchema(many=True))
 @blp.doc(description="Getting client task list")
 def get_task():
-    return TASK_LIST
+    return Task.get_task_list()
 
 
 @blp.route("/task/<int:task_id>", methods=["GET"], strict_slashes=False)
-@blp.response(200, TaskSchema)
+@blp.response(200, TaskResponseSchema)
 @blp.doc(description="Getting client task list")
 def get_task(task_id: int):
-    return TASK_LIST[task_id]
+    if task := Task.get_task(task_id):
+        return task
+    else:
+        return abort(404, errors=str('This task was delete'))
 
 
 @blp.route("/update-task/<int:task_id>", methods=["PATCH"], strict_slashes=False)
 @blp.arguments(UpdateTaskArgsSchema, location="json", as_kwargs=True)
-@blp.response(200, UpdateTaskResponseSchema)
+@blp.response(200)
 @blp.doc(desription="Modify an existing task")
 def update_task(task_id: int, description: str):
-    TASK_LIST[task_id].description = description
+    Task.update_task(description, task_id)
     return success_response()
 
+
+@blp.route("/change-done/<int:task_id>", methods=["PATCH"], strict_slashes=False)
+@blp.doc(desription="Modify an existing task")
+def update_task(task_id: int):
+    Task.change_done(task_id)
+    return success_response()

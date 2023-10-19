@@ -1,16 +1,18 @@
 from flask_marshmallow import Schema
-from marshmallow import fields as f, validates_schema, ValidationError, validates
-
-from organizer_project.models import Task
+from marshmallow import fields as f
+from flask_marshmallow.sqla import SQLAlchemyAutoSchema
 
 
 class AddTaskArgsSchema(Schema):
     description = f.String(allow_none=False, required=True)
 
 
-class TaskSchema(Schema):
-    id_ = f.Integer(required=True)
-    description = f.String(required=True)
+class TaskResponseSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        from organizer_project.models import Task
+
+        model = Task
+        include_pk = True
 
 
 # class TaskListSchema(Schema):
@@ -23,8 +25,4 @@ class TodoListResponseSchema(Schema):
 
 
 class UpdateTaskArgsSchema(Schema):
-    description = f.String(required=True)
-
-
-class UpdateTaskResponseSchema(Schema):
     description = f.String(required=True)
