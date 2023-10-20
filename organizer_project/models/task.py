@@ -55,3 +55,7 @@ class Task(db.Model):
         task.is_done = False if is_done else True
         task.change_done_at = func.now()
         db.session.commit()
+
+    @classmethod
+    def call_delete(cls, task_id: int):
+        return db.get_or_404(cls, task_id).delete_at
