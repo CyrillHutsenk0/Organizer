@@ -25,7 +25,6 @@ class Task(db.Model):
     @classmethod
     def delete_task(cls, task_id: int):
         task = db.get_or_404(cls, task_id)
-        # db.session.delete(task)
         task.delete_at = func.now()
         db.session.commit()
 
@@ -57,5 +56,5 @@ class Task(db.Model):
         db.session.commit()
 
     @classmethod
-    def call_delete(cls, task_id: int):
+    def call_date_delete(cls, task_id: int):
         return db.get_or_404(cls, task_id).delete_at

@@ -40,7 +40,7 @@ def get_task(task_id: int):
     if task := Task.get_task(task_id):
         return task
     else:
-        return abort(404, errors=str(f'This task was delete {Task.call_delete(task_id)}'))
+        return abort(404, errors=str(f'This task was delete {Task.call_date_delete(task_id)}'))
 
 
 @blp.route("/update-task/<int:task_id>", methods=["PATCH"], strict_slashes=False)
