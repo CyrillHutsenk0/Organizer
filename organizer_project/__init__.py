@@ -1,6 +1,7 @@
 import warnings
 from typing import TYPE_CHECKING
 from flask import Flask, Response, redirect, request
+
 # from flask_caching import Cache
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
@@ -27,10 +28,11 @@ from organizer_project.config import (
     STATIC_FOLDER,
     SQLALCHEMY_ENGINE_OPTIONS,
 )
+
 # from som.types.db import MarketModel, MarketQuery
 
 # if TYPE_CHECKING:
-    # from som.models import User
+# from som.models import User
 
 # if SENTRY_DSN:
 #     sentry_sdk.init(
@@ -51,9 +53,6 @@ db = SQLAlchemy(app)
 
 
 def create_app(conf: str = None) -> Flask:
-
-
-
     warnings.filterwarnings("ignore", message="Multiple schemas resolved to the name ")
     ma = Marshmallow()
     migrate = Migrate()
@@ -62,7 +61,6 @@ def create_app(conf: str = None) -> Flask:
 
     # Marshmallow and Flask-Migrate
     ma.init_app(app)
-
 
     with app.app_context():
         import organizer_project.models

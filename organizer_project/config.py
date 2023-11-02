@@ -91,6 +91,8 @@ TEST_DB_URL = (
     else None
 )
 
+SERVER_URL = f"http://127.0.0.1:5000/api/todo-list/task-list"
+
 LOCALHOST = get_env_variable("LOCALHOST")
 LOCALHOST_PORT = get_env_variable("LOCALHOST_PORT")
 OLD_API_SERVER = get_env_variable("OLD_API_SERVER")

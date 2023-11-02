@@ -74,7 +74,7 @@ route is an update, it also has two types
 @blp.route("/change-done/<int:task_id>", methods=["PATCH"], strict_slashes=False)
 ```
 
-## Item 2 DATABASE
+## Item 3 DATABASE
 Here you can see the Task class itself, 
 which is the table in this project
 

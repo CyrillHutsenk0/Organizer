@@ -11,7 +11,7 @@ class Task(db.Model):
     description: Mapped[str] = mapped_column(String, nullable=False)
     is_done: Mapped[bool] = mapped_column(Boolean)
     created_at: Mapped[datetime.datetime] = mapped_column(
-        DateTime, nullable=False, server_default=func.now()
+        DateTime, nullable=False, default=datetime.datetime.now()
     )
     update_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
     change_done_at: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)

@@ -24,7 +24,7 @@ class MarketQueryWithSoftDelete(MarketQuery):
 
     def __new__(cls, *args, **kwargs):
         obj = super().__new__(cls)
-        obj._with_deleted = kwargs.pop('_with_deleted', False)
+        obj._with_deleted = kwargs.pop("_with_deleted", False)
         if len(args) > 0:
             super(MarketQueryWithSoftDelete, obj).__init__(*args, **kwargs)
             return obj.filter_by(deleted_at=None) if not obj._with_deleted else obj
